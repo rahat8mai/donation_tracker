@@ -1,15 +1,9 @@
 import { Wallet, Receipt } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import ActionCard from "@/components/ActionCard";
-import { toast } from "sonner";
 
 const Index = () => {
-  const handleCollectionClick = () => {
-    toast.info("সংগ্রহকৃত টাকার তথ্য শীঘ্রই যোগ করা হবে");
-  };
-
-  const handleExpenseClick = () => {
-    toast.info("খরচের হিসাব শীঘ্রই যোগ করা হবে");
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-background px-4 py-12 sm:py-16">
@@ -24,12 +18,12 @@ const Index = () => {
         <ActionCard
           icon={Wallet}
           title="এখন পর্যন্ত সংগ্রহকৃত টাকার পরিমাণ জানতে এখানে ক্লিক করুন"
-          onClick={handleCollectionClick}
+          onClick={() => navigate("/collections")}
         />
         <ActionCard
           icon={Receipt}
           title="খরচের হিসাব দেখতে এখানে ক্লিক করুন"
-          onClick={handleExpenseClick}
+          onClick={() => navigate("/expenses")}
         />
       </main>
     </div>
