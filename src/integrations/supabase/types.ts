@@ -14,7 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      collections: {
+        Row: {
+          amount: number
+          collection_date: string
+          created_at: string
+          description: string | null
+          donor_name: string
+          id: string
+        }
+        Insert: {
+          amount: number
+          collection_date?: string
+          created_at?: string
+          description?: string | null
+          donor_name: string
+          id?: string
+        }
+        Update: {
+          amount?: number
+          collection_date?: string
+          created_at?: string
+          description?: string | null
+          donor_name?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      expenses: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          expense_date: string
+          id: string
+          title: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          expense_date?: string
+          id?: string
+          title: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          expense_date?: string
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
