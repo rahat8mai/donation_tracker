@@ -6,54 +6,37 @@ import AdminLoginDialog from "@/components/AdminLoginDialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdmin } from "@/contexts/AdminContext";
-
 const Index = () => {
   const navigate = useNavigate();
-  const { isAdmin } = useAdmin();
+  const {
+    isAdmin
+  } = useAdmin();
   const [totalCollection, setTotalCollection] = useState<number>(0);
   const [totalExpense, setTotalExpense] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const fetchTotals = async () => {
-      const [collectionsRes, expensesRes] = await Promise.all([
-        supabase.from("collections").select("amount"),
-        supabase.from("expenses").select("amount"),
-      ]);
-
-      const collectionTotal = (collectionsRes.data || []).reduce(
-        (sum, item) => sum + Number(item.amount),
-        0
-      );
-      const expenseTotal = (expensesRes.data || []).reduce(
-        (sum, item) => sum + Number(item.amount),
-        0
-      );
-
+      const [collectionsRes, expensesRes] = await Promise.all([supabase.from("collections").select("amount"), supabase.from("expenses").select("amount")]);
+      const collectionTotal = (collectionsRes.data || []).reduce((sum, item) => sum + Number(item.amount), 0);
+      const expenseTotal = (expensesRes.data || []).reduce((sum, item) => sum + Number(item.amount), 0);
       setTotalCollection(collectionTotal);
       setTotalExpense(expenseTotal);
       setIsLoading(false);
     };
-
     fetchTotals();
   }, []);
-
   const balance = totalCollection - totalExpense;
-
-  return (
-    <div className="flex min-h-screen flex-col items-center bg-background px-4 py-12 sm:py-16">
+  return <div className="flex min-h-screen flex-col items-center bg-background px-4 py-12 sm:py-16">
       <div className="absolute right-4 top-4">
         <AdminLoginDialog />
       </div>
 
       <header className="mb-8 text-center sm:mb-12">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
-          সংগ্রহকৃত টাকার হিসাব নিকাশ
+          সংগ্রহকৃত টাকার হিসাব 
         </h1>
         <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-primary/60" />
-        {isAdmin && (
-          <p className="mt-2 text-sm text-primary">এডমিন মোড সক্রিয়</p>
-        )}
+        {isAdmin && <p className="mt-2 text-sm text-primary">এডমিন মোড সক্রিয়</p>}
       </header>
 
       {/* Summary Cards */}
@@ -85,19 +68,9 @@ const Index = () => {
       </div>
 
       <main className="flex w-full max-w-2xl flex-col items-center gap-6">
-        <ActionCard
-          icon={Wallet}
-          title="এখন পর্যন্ত সংগ্রহকৃত টাকার পরিমাণ জানতে এখানে ক্লিক করুন"
-          onClick={() => navigate("/collections")}
-        />
-        <ActionCard
-          icon={Receipt}
-          title="খরচের হিসাব দেখতে এখানে ক্লিক করুন"
-          onClick={() => navigate("/expenses")}
-        />
+        <ActionCard icon={Wallet} title="এখন পর্যন্ত সংগ্রহকৃত টাকার পরিমাণ জানতে এখানে ক্লিক করুন" onClick={() => navigate("/collections")} />
+        <ActionCard icon={Receipt} title="খরচের হিসাব দেখতে এখানে ক্লিক করুন" onClick={() => navigate("/expenses")} />
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
