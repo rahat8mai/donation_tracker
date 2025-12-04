@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { Wallet, Receipt } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ActionCard from "@/components/ActionCard";
+import AdminLoginDialog from "@/components/AdminLoginDialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdmin } from "@/contexts/AdminContext";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { isAdmin } = useAdmin();
   const [totalCollection, setTotalCollection] = useState<number>(0);
   const [totalExpense, setTotalExpense] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,11 +42,18 @@ const Index = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center bg-background px-4 py-12 sm:py-16">
+      <div className="absolute right-4 top-4">
+        <AdminLoginDialog />
+      </div>
+
       <header className="mb-8 text-center sm:mb-12">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
           সংগ্রহকৃত টাকার হিসাব নিকাশ
         </h1>
         <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-primary/60" />
+        {isAdmin && (
+          <p className="mt-2 text-sm text-primary">এডমিন মোড সক্রিয়</p>
+        )}
       </header>
 
       {/* Summary Cards */}
