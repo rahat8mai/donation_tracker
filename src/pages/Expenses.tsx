@@ -19,8 +19,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ExpenseForm from "@/components/ExpenseForm";
+import AdminLoginDialog from "@/components/AdminLoginDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useAdmin } from "@/contexts/AdminContext";
 
 interface Expense {
   id: string;
@@ -32,6 +34,7 @@ interface Expense {
 }
 
 const Expenses = () => {
+  const { isAdmin } = useAdmin();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -69,6 +72,10 @@ const Expenses = () => {
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
+      <div className="absolute right-4 top-4">
+        <AdminLoginDialog />
+      </div>
+
       <div className="mx-auto max-w-4xl">
         <Link
           to="/"
@@ -81,25 +88,27 @@ const Expenses = () => {
         <Card className="mb-6">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl">খরচের তালিকা</CardTitle>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="mr-2 h-4 w-4" />
-                  নতুন যোগ করুন
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>নতুন খরচ যোগ করুন</DialogTitle>
-                </DialogHeader>
-                <ExpenseForm
-                  onSuccess={() => {
-                    setIsDialogOpen(false);
-                    fetchExpenses();
-                  }}
-                />
-              </DialogContent>
-            </Dialog>
+            {isAdmin && (
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="mr-2 h-4 w-4" />
+                    নতুন যোগ করুন
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>নতুন খরচ যোগ করুন</DialogTitle>
+                  </DialogHeader>
+                  <ExpenseForm
+                    onSuccess={() => {
+                      setIsDialogOpen(false);
+                      fetchExpenses();
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
+            )}
           </CardHeader>
           <CardContent>
             <div className="mb-4 rounded-lg bg-destructive/10 p-4 text-center">
@@ -124,7 +133,7 @@ const Expenses = () => {
                       <TableHead>টাকা</TableHead>
                       <TableHead>তারিখ</TableHead>
                       <TableHead>বিবরণ</TableHead>
-                      <TableHead className="w-12"></TableHead>
+                      {isAdmin && <TableHead className="w-12"></TableHead>}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -142,15 +151,17 @@ const Expenses = () => {
                         <TableCell className="max-w-[200px] truncate">
                           {expense.description || "-"}
                         </TableCell>
-                        <TableCell>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleDelete(expense.id)}
-                          >
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
-                        </TableCell>
+                        {isAdmin && (
+                          <TableCell>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleDelete(expense.id)}
+                            >
+                              <Trash2 className="h-4 w-4 text-destructive" />
+                            </Button>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))}
                   </TableBody>
