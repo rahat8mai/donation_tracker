@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,11 +6,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-interface ExpenseFormProps {
-  onSuccess: () => void;
+interface Expense {
+  id: string;
+  title: string;
+  amount: number;
+  description: string | null;
+  expense_date: string;
 }
 
-const ExpenseForm = ({ onSuccess }: ExpenseFormProps) => {
+interface ExpenseFormProps {
+  onSuccess: () => void;
+  editData?: Expense | null;
+}
+
+const ExpenseForm = ({ onSuccess, editData }: ExpenseFormProps) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -18,6 +27,17 @@ const ExpenseForm = ({ onSuccess }: ExpenseFormProps) => {
     new Date().toISOString().split("T")[0]
   );
   const [isLoading, setIsLoading] = useState(false);
+
+  const isEditMode = !!editData;
+
+  useEffect(() => {
+    if (editData) {
+      setTitle(editData.title);
+      setAmount(editData.amount.toString());
+      setDescription(editData.description || "");
+      setExpenseDate(editData.expense_date);
+    }
+  }, [editData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,26 +49,49 @@ const ExpenseForm = ({ onSuccess }: ExpenseFormProps) => {
 
     setIsLoading(true);
 
-    const { error } = await supabase.from("expenses").insert({
-      title: title.trim(),
-      amount: parseFloat(amount),
-      description: description.trim() || null,
-      expense_date: expenseDate,
-    });
+    if (isEditMode && editData) {
+      const { error } = await supabase
+        .from("expenses")
+        .update({
+          title: title.trim(),
+          amount: parseFloat(amount),
+          description: description.trim() || null,
+          expense_date: expenseDate,
+        })
+        .eq("id", editData.id);
 
-    setIsLoading(false);
+      setIsLoading(false);
 
-    if (error) {
-      toast.error("সংরক্ষণে সমস্যা হয়েছে");
-      console.error(error);
-      return;
+      if (error) {
+        toast.error("আপডেটে সমস্যা হয়েছে");
+        console.error(error);
+        return;
+      }
+
+      toast.success("তথ্য আপডেট হয়েছে");
+    } else {
+      const { error } = await supabase.from("expenses").insert({
+        title: title.trim(),
+        amount: parseFloat(amount),
+        description: description.trim() || null,
+        expense_date: expenseDate,
+      });
+
+      setIsLoading(false);
+
+      if (error) {
+        toast.error("সংরক্ষণে সমস্যা হয়েছে");
+        console.error(error);
+        return;
+      }
+
+      toast.success("খরচের তথ্য সংরক্ষিত হয়েছে");
+      setTitle("");
+      setAmount("");
+      setDescription("");
+      setExpenseDate(new Date().toISOString().split("T")[0]);
     }
 
-    toast.success("খরচের তথ্য সংরক্ষিত হয়েছে");
-    setTitle("");
-    setAmount("");
-    setDescription("");
-    setExpenseDate(new Date().toISOString().split("T")[0]);
     onSuccess();
   };
 
@@ -100,7 +143,13 @@ const ExpenseForm = ({ onSuccess }: ExpenseFormProps) => {
       </div>
 
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "সংরক্ষণ হচ্ছে..." : "সংরক্ষণ করুন"}
+        {isLoading
+          ? isEditMode
+            ? "আপডেট হচ্ছে..."
+            : "সংরক্ষণ হচ্ছে..."
+          : isEditMode
+          ? "আপডেট করুন"
+          : "সংরক্ষণ করুন"}
       </Button>
     </form>
   );

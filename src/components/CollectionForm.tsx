@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,11 +6,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-interface CollectionFormProps {
-  onSuccess: () => void;
+interface Collection {
+  id: string;
+  donor_name: string;
+  amount: number;
+  description: string | null;
+  collection_date: string;
 }
 
-const CollectionForm = ({ onSuccess }: CollectionFormProps) => {
+interface CollectionFormProps {
+  onSuccess: () => void;
+  editData?: Collection | null;
+}
+
+const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
   const [donorName, setDonorName] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -18,6 +27,17 @@ const CollectionForm = ({ onSuccess }: CollectionFormProps) => {
     new Date().toISOString().split("T")[0]
   );
   const [isLoading, setIsLoading] = useState(false);
+
+  const isEditMode = !!editData;
+
+  useEffect(() => {
+    if (editData) {
+      setDonorName(editData.donor_name);
+      setAmount(editData.amount.toString());
+      setDescription(editData.description || "");
+      setCollectionDate(editData.collection_date);
+    }
+  }, [editData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,26 +49,49 @@ const CollectionForm = ({ onSuccess }: CollectionFormProps) => {
 
     setIsLoading(true);
 
-    const { error } = await supabase.from("collections").insert({
-      donor_name: donorName.trim(),
-      amount: parseFloat(amount),
-      description: description.trim() || null,
-      collection_date: collectionDate,
-    });
+    if (isEditMode && editData) {
+      const { error } = await supabase
+        .from("collections")
+        .update({
+          donor_name: donorName.trim(),
+          amount: parseFloat(amount),
+          description: description.trim() || null,
+          collection_date: collectionDate,
+        })
+        .eq("id", editData.id);
 
-    setIsLoading(false);
+      setIsLoading(false);
 
-    if (error) {
-      toast.error("সংরক্ষণে সমস্যা হয়েছে");
-      console.error(error);
-      return;
+      if (error) {
+        toast.error("আপডেটে সমস্যা হয়েছে");
+        console.error(error);
+        return;
+      }
+
+      toast.success("তথ্য আপডেট হয়েছে");
+    } else {
+      const { error } = await supabase.from("collections").insert({
+        donor_name: donorName.trim(),
+        amount: parseFloat(amount),
+        description: description.trim() || null,
+        collection_date: collectionDate,
+      });
+
+      setIsLoading(false);
+
+      if (error) {
+        toast.error("সংরক্ষণে সমস্যা হয়েছে");
+        console.error(error);
+        return;
+      }
+
+      toast.success("টাকা সংগ্রহের তথ্য সংরক্ষিত হয়েছে");
+      setDonorName("");
+      setAmount("");
+      setDescription("");
+      setCollectionDate(new Date().toISOString().split("T")[0]);
     }
 
-    toast.success("টাকা সংগ্রহের তথ্য সংরক্ষিত হয়েছে");
-    setDonorName("");
-    setAmount("");
-    setDescription("");
-    setCollectionDate(new Date().toISOString().split("T")[0]);
     onSuccess();
   };
 
@@ -100,7 +143,13 @@ const CollectionForm = ({ onSuccess }: CollectionFormProps) => {
       </div>
 
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "সংরক্ষণ হচ্ছে..." : "সংরক্ষণ করুন"}
+        {isLoading
+          ? isEditMode
+            ? "আপডেট হচ্ছে..."
+            : "সংরক্ষণ হচ্ছে..."
+          : isEditMode
+          ? "আপডেট করুন"
+          : "সংরক্ষণ করুন"}
       </Button>
     </form>
   );

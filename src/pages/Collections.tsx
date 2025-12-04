@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,6 +38,8 @@ const Collections = () => {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingCollection, setEditingCollection] = useState<Collection | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const fetchCollections = async () => {
     const { data, error } = await supabase
@@ -66,6 +68,11 @@ const Collections = () => {
       toast.success("সফলভাবে মুছে ফেলা হয়েছে");
       fetchCollections();
     }
+  };
+
+  const handleEdit = (collection: Collection) => {
+    setEditingCollection(collection);
+    setIsEditDialogOpen(true);
   };
 
   const totalAmount = collections.reduce((sum, c) => sum + Number(c.amount), 0);
@@ -133,7 +140,7 @@ const Collections = () => {
                       <TableHead>টাকা</TableHead>
                       <TableHead>তারিখ</TableHead>
                       <TableHead>বিবরণ</TableHead>
-                      {isAdmin && <TableHead className="w-12"></TableHead>}
+                      {isAdmin && <TableHead className="w-24"></TableHead>}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -153,13 +160,22 @@ const Collections = () => {
                         </TableCell>
                         {isAdmin && (
                           <TableCell>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => handleDelete(collection.id)}
-                            >
-                              <Trash2 className="h-4 w-4 text-destructive" />
-                            </Button>
+                            <div className="flex gap-1">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleEdit(collection)}
+                              >
+                                <Pencil className="h-4 w-4 text-muted-foreground" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleDelete(collection.id)}
+                              >
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                              </Button>
+                            </div>
                           </TableCell>
                         )}
                       </TableRow>
@@ -171,6 +187,23 @@ const Collections = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Edit Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>তথ্য সম্পাদনা করুন</DialogTitle>
+          </DialogHeader>
+          <CollectionForm
+            editData={editingCollection}
+            onSuccess={() => {
+              setIsEditDialogOpen(false);
+              setEditingCollection(null);
+              fetchCollections();
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
