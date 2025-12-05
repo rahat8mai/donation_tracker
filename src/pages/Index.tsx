@@ -71,6 +71,14 @@ const Index = () => {
         <ActionCard icon={Wallet} title="এখন পর্যন্ত সংগ্রহকৃত টাকার পরিমাণ জানতে এখানে ক্লিক করুন" onClick={() => navigate("/collections")} />
         <ActionCard icon={Receipt} title="খরচের হিসাব দেখতে এখানে ক্লিক করুন" onClick={() => navigate("/expenses")} />
       </main>
+
+      <footer className="mt-12 w-full max-w-2xl text-center">
+        <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+          <p className="text-sm text-muted-foreground">অনুদান পাঠাতে নিচের মাধ্যম গুলো ব্যবহার করুন</p>
+          <p className="mt-2 text-lg font-semibold text-primary">01788723577</p>
+          <p className="text-sm text-muted-foreground">(বিকাশ, রকেট, নগদ)</p>
+        </div>
+      </footer>
     </div>;
 };
 export default Index;
