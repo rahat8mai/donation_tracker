@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Wallet, Receipt } from "lucide-react";
+import { Wallet, Receipt, Smartphone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ActionCard from "@/components/ActionCard";
 import AdminLoginDialog from "@/components/AdminLoginDialog";
@@ -40,27 +40,27 @@ const Index = () => {
       </header>
 
       {/* Summary Cards */}
-      <div className="mb-8 grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mb-8 grid w-full max-w-2xl grid-cols-3 gap-2 sm:gap-4">
         <Card className="border-primary/20 bg-primary/5">
-          <CardContent className="pt-6 text-center">
-            <p className="text-sm text-muted-foreground">মোট সংগ্রহ</p>
-            <p className="text-xl font-bold text-primary sm:text-2xl">
+          <CardContent className="p-3 pt-4 text-center sm:pt-6">
+            <p className="text-xs text-muted-foreground sm:text-sm">মোট সংগ্রহ</p>
+            <p className="text-sm font-bold text-primary sm:text-2xl">
               {isLoading ? "..." : `৳ ${totalCollection.toLocaleString("bn-BD")}`}
             </p>
           </CardContent>
         </Card>
         <Card className="border-destructive/20 bg-destructive/5">
-          <CardContent className="pt-6 text-center">
-            <p className="text-sm text-muted-foreground">মোট খরচ</p>
-            <p className="text-xl font-bold text-destructive sm:text-2xl">
+          <CardContent className="p-3 pt-4 text-center sm:pt-6">
+            <p className="text-xs text-muted-foreground sm:text-sm">মোট খরচ</p>
+            <p className="text-sm font-bold text-destructive sm:text-2xl">
               {isLoading ? "..." : `৳ ${totalExpense.toLocaleString("bn-BD")}`}
             </p>
           </CardContent>
         </Card>
         <Card className={`${balance >= 0 ? "border-green-500/20 bg-green-500/5" : "border-destructive/20 bg-destructive/5"}`}>
-          <CardContent className="pt-6 text-center">
-            <p className="text-sm text-muted-foreground">অবশিষ্ট</p>
-            <p className={`text-xl font-bold sm:text-2xl ${balance >= 0 ? "text-green-500" : "text-destructive"}`}>
+          <CardContent className="p-3 pt-4 text-center sm:pt-6">
+            <p className="text-xs text-muted-foreground sm:text-sm">অবশিষ্ট</p>
+            <p className={`text-sm font-bold sm:text-2xl ${balance >= 0 ? "text-green-500" : "text-destructive"}`}>
               {isLoading ? "..." : `৳ ${balance.toLocaleString("bn-BD")}`}
             </p>
           </CardContent>
@@ -76,9 +76,29 @@ const Index = () => {
         <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
           <p className="text-sm text-muted-foreground">অনুদান পাঠাতে নিচের মাধ্যম গুলো ব্যবহার করুন</p>
           <p className="mt-2 text-lg font-semibold text-primary">01788723577</p>
-          <p className="text-sm text-muted-foreground">(বিকাশ, রকেট, নগদ)</p>
+          <div className="mt-3 flex items-center justify-center gap-4">
+            <div className="flex flex-col items-center gap-1">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-pink-500/10">
+                <Smartphone className="h-5 w-5 text-pink-500" />
+              </div>
+              <span className="text-xs text-muted-foreground">বিকাশ</span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-500/10">
+                <Smartphone className="h-5 w-5 text-purple-500" />
+              </div>
+              <span className="text-xs text-muted-foreground">রকেট</span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/10">
+                <Smartphone className="h-5 w-5 text-orange-500" />
+              </div>
+              <span className="text-xs text-muted-foreground">নগদ</span>
+            </div>
+          </div>
         </div>
       </footer>
     </div>;
 };
+
 export default Index;
