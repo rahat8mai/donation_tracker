@@ -68,7 +68,7 @@ const Index = () => {
       </div>
 
       <main className="flex w-full max-w-2xl flex-col items-center gap-6">
-        <ActionCard icon={Wallet} title="এখন পর্যন্ত সংগ্রহকৃত টাকার পরিমাণ জানতে এখানে ক্লিক করুন" onClick={() => navigate("/collections")} />
+        <ActionCard icon={Wallet} title="এখন পর্যন্ত সংগ্রহকৃত টাকার পরিমাণের বিস্তারিত জানতে এখানে ক্লিক করুন" onClick={() => navigate("/collections")} />
         <ActionCard icon={Receipt} title="খরচের বিস্তারিত দেখতে এখানে ক্লিক করুন" onClick={() => navigate("/expenses")} />
       </main>
 
