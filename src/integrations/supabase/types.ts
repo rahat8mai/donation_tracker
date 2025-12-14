@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       collections: {
         Row: {
+          address: string | null
           amount: number
           collection_date: string
           created_at: string
@@ -24,6 +25,7 @@ export type Database = {
           id: string
         }
         Insert: {
+          address?: string | null
           amount: number
           collection_date?: string
           created_at?: string
@@ -32,6 +34,7 @@ export type Database = {
           id?: string
         }
         Update: {
+          address?: string | null
           amount?: number
           collection_date?: string
           created_at?: string
