@@ -137,7 +137,7 @@ const Collections = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-16">ক্রমিক</TableHead>
+                      <TableHead className="w-10 text-center">ক্রমিক</TableHead>
                       <TableHead>দাতার নাম</TableHead>
                       <TableHead>ঠিকানা</TableHead>
                       <TableHead>টাকা</TableHead>
@@ -149,7 +149,7 @@ const Collections = () => {
                   <TableBody>
                     {collections.map((collection, index) => (
                       <TableRow key={collection.id}>
-                        <TableCell className="font-medium">
+                        <TableCell className="text-center">
                           {(index + 1).toLocaleString("bn-BD")}
                         </TableCell>
                         <TableCell>{collection.donor_name}</TableCell>
