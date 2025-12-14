@@ -46,7 +46,7 @@ const Collections = () => {
     const { data, error } = await supabase
       .from("collections")
       .select("*")
-      .order("collection_date", { ascending: false });
+      .order("created_at", { ascending: true });
 
     if (error) {
       toast.error("তথ্য লোড করতে সমস্যা হয়েছে");

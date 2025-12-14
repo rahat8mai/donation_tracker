@@ -46,7 +46,7 @@ const Expenses = () => {
     const { data, error } = await supabase
       .from("expenses")
       .select("*")
-      .order("expense_date", { ascending: false });
+      .order("created_at", { ascending: true });
 
     if (error) {
       toast.error("তথ্য লোড করতে সমস্যা হয়েছে");
