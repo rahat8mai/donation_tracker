@@ -137,7 +137,7 @@ const Expenses = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-16">ক্রমিক</TableHead>
+                      <TableHead className="w-10 text-center">ক্রমিক</TableHead>
                       <TableHead>শিরোনাম</TableHead>
                       <TableHead>ক্যাটেগরি</TableHead>
                       <TableHead>টাকা</TableHead>
@@ -149,7 +149,7 @@ const Expenses = () => {
                   <TableBody>
                     {expenses.map((expense, index) => (
                       <TableRow key={expense.id}>
-                        <TableCell className="font-medium">
+                        <TableCell className="text-center">
                           {(index + 1).toLocaleString("bn-BD")}
                         </TableCell>
                         <TableCell>{expense.title}</TableCell>
