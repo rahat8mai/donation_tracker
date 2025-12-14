@@ -29,6 +29,7 @@ interface Expense {
   title: string;
   amount: number;
   description: string | null;
+  category: string | null;
   expense_date: string;
   created_at: string;
 }
@@ -136,7 +137,9 @@ const Expenses = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="w-16">ক্রমিক</TableHead>
                       <TableHead>শিরোনাম</TableHead>
+                      <TableHead>ক্যাটেগরি</TableHead>
                       <TableHead>টাকা</TableHead>
                       <TableHead>তারিখ</TableHead>
                       <TableHead>বিবরণ</TableHead>
@@ -144,9 +147,15 @@ const Expenses = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {expenses.map((expense) => (
+                    {expenses.map((expense, index) => (
                       <TableRow key={expense.id}>
+                        <TableCell className="font-medium">
+                          {(index + 1).toLocaleString("bn-BD")}
+                        </TableCell>
                         <TableCell>{expense.title}</TableCell>
+                        <TableCell className="max-w-[120px] truncate">
+                          {expense.category || "-"}
+                        </TableCell>
                         <TableCell>
                           ৳ {Number(expense.amount).toLocaleString("bn-BD")}
                         </TableCell>

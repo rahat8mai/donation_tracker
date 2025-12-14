@@ -11,6 +11,7 @@ interface Expense {
   title: string;
   amount: number;
   description: string | null;
+  category: string | null;
   expense_date: string;
 }
 
@@ -23,6 +24,7 @@ const ExpenseForm = ({ onSuccess, editData }: ExpenseFormProps) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
   const [expenseDate, setExpenseDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -35,6 +37,7 @@ const ExpenseForm = ({ onSuccess, editData }: ExpenseFormProps) => {
       setTitle(editData.title);
       setAmount(editData.amount.toString());
       setDescription(editData.description || "");
+      setCategory(editData.category || "");
       setExpenseDate(editData.expense_date);
     }
   }, [editData]);
@@ -56,6 +59,7 @@ const ExpenseForm = ({ onSuccess, editData }: ExpenseFormProps) => {
           title: title.trim(),
           amount: parseFloat(amount),
           description: description.trim() || null,
+          category: category.trim() || null,
           expense_date: expenseDate,
         })
         .eq("id", editData.id);
@@ -74,6 +78,7 @@ const ExpenseForm = ({ onSuccess, editData }: ExpenseFormProps) => {
         title: title.trim(),
         amount: parseFloat(amount),
         description: description.trim() || null,
+        category: category.trim() || null,
         expense_date: expenseDate,
       });
 
@@ -89,6 +94,7 @@ const ExpenseForm = ({ onSuccess, editData }: ExpenseFormProps) => {
       setTitle("");
       setAmount("");
       setDescription("");
+      setCategory("");
       setExpenseDate(new Date().toISOString().split("T")[0]);
     }
 
@@ -119,6 +125,16 @@ const ExpenseForm = ({ onSuccess, editData }: ExpenseFormProps) => {
           onChange={(e) => setAmount(e.target.value)}
           placeholder="টাকার পরিমাণ লিখুন"
           required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="category">ক্যাটেগরি (ঐচ্ছিক)</Label>
+        <Input
+          id="category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          placeholder="যেমন: নির্মাণ, পরিবহন, খাবার"
         />
       </div>
 
