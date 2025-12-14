@@ -12,6 +12,7 @@ interface Collection {
   amount: number;
   description: string | null;
   collection_date: string;
+  address: string | null;
 }
 
 interface CollectionFormProps {
@@ -23,6 +24,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
   const [donorName, setDonorName] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+  const [address, setAddress] = useState("");
   const [collectionDate, setCollectionDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -35,6 +37,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
       setDonorName(editData.donor_name);
       setAmount(editData.amount.toString());
       setDescription(editData.description || "");
+      setAddress(editData.address || "");
       setCollectionDate(editData.collection_date);
     }
   }, [editData]);
@@ -56,6 +59,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
           donor_name: donorName.trim(),
           amount: parseFloat(amount),
           description: description.trim() || null,
+          address: address.trim() || null,
           collection_date: collectionDate,
         })
         .eq("id", editData.id);
@@ -74,6 +78,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
         donor_name: donorName.trim(),
         amount: parseFloat(amount),
         description: description.trim() || null,
+        address: address.trim() || null,
         collection_date: collectionDate,
       });
 
@@ -89,6 +94,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
       setDonorName("");
       setAmount("");
       setDescription("");
+      setAddress("");
       setCollectionDate(new Date().toISOString().split("T")[0]);
     }
 
@@ -119,6 +125,16 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
           onChange={(e) => setAmount(e.target.value)}
           placeholder="টাকার পরিমাণ লিখুন"
           required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="address">ঠিকানা (ঐচ্ছিক)</Label>
+        <Input
+          id="address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="ঠিকানা লিখুন"
         />
       </div>
 

@@ -29,6 +29,7 @@ interface Collection {
   donor_name: string;
   amount: number;
   description: string | null;
+  address: string | null;
   collection_date: string;
   created_at: string;
 }
@@ -136,7 +137,9 @@ const Collections = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="w-16">ক্রমিক</TableHead>
                       <TableHead>দাতার নাম</TableHead>
+                      <TableHead>ঠিকানা</TableHead>
                       <TableHead>টাকা</TableHead>
                       <TableHead>তারিখ</TableHead>
                       <TableHead>বিবরণ</TableHead>
@@ -144,9 +147,15 @@ const Collections = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {collections.map((collection) => (
+                    {collections.map((collection, index) => (
                       <TableRow key={collection.id}>
+                        <TableCell className="font-medium">
+                          {(index + 1).toLocaleString("bn-BD")}
+                        </TableCell>
                         <TableCell>{collection.donor_name}</TableCell>
+                        <TableCell className="max-w-[150px] truncate">
+                          {collection.address || "-"}
+                        </TableCell>
                         <TableCell>
                           ৳ {Number(collection.amount).toLocaleString("bn-BD")}
                         </TableCell>
