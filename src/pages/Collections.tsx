@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { ArrowLeft, Plus, Trash2, Pencil } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { ArrowLeft, Plus, Trash2, Pencil, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -42,6 +42,23 @@ const Collections = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCollection, setEditingCollection] = useState<Collection | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+
+  const checkScrollable = () => {
+    const container = tableContainerRef.current;
+    if (container) {
+      const hasMoreToScroll = container.scrollWidth > container.clientWidth && 
+        container.scrollLeft < container.scrollWidth - container.clientWidth - 5;
+      setCanScrollRight(hasMoreToScroll);
+    }
+  };
+
+  useEffect(() => {
+    checkScrollable();
+    window.addEventListener("resize", checkScrollable);
+    return () => window.removeEventListener("resize", checkScrollable);
+  }, [collections]);
 
   const fetchCollections = async () => {
     const { data, error } = await supabase
@@ -134,69 +151,81 @@ const Collections = () => {
                 কোনো তথ্য পাওয়া যায়নি
               </p>
             ) : (
-              <div className="overflow-x-auto">
-                <Table className="table-auto">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="whitespace-nowrap">ক্রমিক</TableHead>
-                      <TableHead className="whitespace-nowrap">দাতার নাম</TableHead>
-                      <TableHead className="whitespace-nowrap">ঠিকানা</TableHead>
-                      <TableHead className="whitespace-nowrap">রেফারেন্স নাম</TableHead>
-                      <TableHead className="whitespace-nowrap">টাকা</TableHead>
-                      <TableHead className="whitespace-nowrap">তারিখ</TableHead>
-                      <TableHead className="whitespace-nowrap">বিবরণ</TableHead>
-                      {isAdmin && <TableHead></TableHead>}
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {collections.map((collection, index) => (
-                      <TableRow key={collection.id}>
-                        <TableCell className="whitespace-nowrap">
-                          {(index + 1).toLocaleString("bn-BD")}
-                        </TableCell>
-                        <TableCell className="whitespace-nowrap">{collection.donor_name}</TableCell>
-                        <TableCell className="whitespace-nowrap">
-                          {collection.address || "-"}
-                        </TableCell>
-                        <TableCell className="whitespace-nowrap">
-                          {collection.reference_name || "-"}
-                        </TableCell>
-                        <TableCell className="whitespace-nowrap">
-                          ৳ {Number(collection.amount).toLocaleString("bn-BD")}
-                        </TableCell>
-                        <TableCell className="whitespace-nowrap">
-                          {new Date(collection.collection_date).toLocaleDateString(
-                            "bn-BD"
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {collection.description || "-"}
-                        </TableCell>
-                        {isAdmin && (
-                          <TableCell>
-                            <div className="flex gap-1">
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleEdit(collection)}
-                              >
-                                <Pencil className="h-4 w-4 text-muted-foreground" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleDelete(collection.id)}
-                              >
-                                <Trash2 className="h-4 w-4 text-destructive" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        )}
+              <>
+                <div 
+                  ref={tableContainerRef}
+                  className="overflow-x-auto"
+                  onScroll={checkScrollable}
+                >
+                  <Table className="table-auto">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="whitespace-nowrap">ক্রমিক</TableHead>
+                        <TableHead className="whitespace-nowrap">দাতার নাম</TableHead>
+                        <TableHead className="whitespace-nowrap">ঠিকানা</TableHead>
+                        <TableHead className="whitespace-nowrap">রেফারেন্স নাম</TableHead>
+                        <TableHead className="whitespace-nowrap">টাকা</TableHead>
+                        <TableHead className="whitespace-nowrap">তারিখ</TableHead>
+                        <TableHead className="whitespace-nowrap">বিবরণ</TableHead>
+                        {isAdmin && <TableHead></TableHead>}
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                    </TableHeader>
+                    <TableBody>
+                      {collections.map((collection, index) => (
+                        <TableRow key={collection.id}>
+                          <TableCell className="whitespace-nowrap">
+                            {(index + 1).toLocaleString("bn-BD")}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">{collection.donor_name}</TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {collection.address || "-"}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {collection.reference_name || "-"}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            ৳ {Number(collection.amount).toLocaleString("bn-BD")}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {new Date(collection.collection_date).toLocaleDateString(
+                              "bn-BD"
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {collection.description || "-"}
+                          </TableCell>
+                          {isAdmin && (
+                            <TableCell>
+                              <div className="flex gap-1">
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleEdit(collection)}
+                                >
+                                  <Pencil className="h-4 w-4 text-muted-foreground" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleDelete(collection.id)}
+                                >
+                                  <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          )}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                {canScrollRight && (
+                  <div className="flex items-center justify-center gap-2 py-2 text-sm text-muted-foreground md:hidden animate-pulse">
+                    <span>আরো দেখতে ডানে স্ক্রল করুন</span>
+                    <ChevronRight className="h-4 w-4" />
+                  </div>
+                )}
+              </>
             )}
           </CardContent>
         </Card>
