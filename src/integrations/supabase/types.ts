@@ -23,6 +23,7 @@ export type Database = {
           description: string | null
           donor_name: string
           id: string
+          reference_name: string | null
         }
         Insert: {
           address?: string | null
@@ -32,6 +33,7 @@ export type Database = {
           description?: string | null
           donor_name: string
           id?: string
+          reference_name?: string | null
         }
         Update: {
           address?: string | null
@@ -41,6 +43,7 @@ export type Database = {
           description?: string | null
           donor_name?: string
           id?: string
+          reference_name?: string | null
         }
         Relationships: []
       }

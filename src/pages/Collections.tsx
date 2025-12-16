@@ -30,6 +30,7 @@ interface Collection {
   amount: number;
   description: string | null;
   address: string | null;
+  reference_name: string | null;
   collection_date: string;
   created_at: string;
 }
@@ -140,6 +141,7 @@ const Collections = () => {
                       <TableHead className="whitespace-nowrap">ক্রমিক</TableHead>
                       <TableHead className="whitespace-nowrap">দাতার নাম</TableHead>
                       <TableHead className="whitespace-nowrap">ঠিকানা</TableHead>
+                      <TableHead className="whitespace-nowrap">রেফারেন্স নাম</TableHead>
                       <TableHead className="whitespace-nowrap">টাকা</TableHead>
                       <TableHead className="whitespace-nowrap">তারিখ</TableHead>
                       <TableHead className="whitespace-nowrap">বিবরণ</TableHead>
@@ -155,6 +157,9 @@ const Collections = () => {
                         <TableCell className="whitespace-nowrap">{collection.donor_name}</TableCell>
                         <TableCell className="whitespace-nowrap">
                           {collection.address || "-"}
+                        </TableCell>
+                        <TableCell className="whitespace-nowrap">
+                          {collection.reference_name || "-"}
                         </TableCell>
                         <TableCell className="whitespace-nowrap">
                           ৳ {Number(collection.amount).toLocaleString("bn-BD")}
