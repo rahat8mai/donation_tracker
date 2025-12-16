@@ -134,37 +134,37 @@ const Collections = () => {
               </p>
             ) : (
               <div className="overflow-x-auto">
-                <Table>
+                <Table className="table-auto">
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-10 text-center">ক্রমিক</TableHead>
-                      <TableHead>দাতার নাম</TableHead>
-                      <TableHead>ঠিকানা</TableHead>
-                      <TableHead>টাকা</TableHead>
-                      <TableHead>তারিখ</TableHead>
-                      <TableHead>বিবরণ</TableHead>
-                      {isAdmin && <TableHead className="w-24"></TableHead>}
+                      <TableHead className="whitespace-nowrap">ক্রমিক</TableHead>
+                      <TableHead className="whitespace-nowrap">দাতার নাম</TableHead>
+                      <TableHead className="whitespace-nowrap">ঠিকানা</TableHead>
+                      <TableHead className="whitespace-nowrap">টাকা</TableHead>
+                      <TableHead className="whitespace-nowrap">তারিখ</TableHead>
+                      <TableHead className="whitespace-nowrap">বিবরণ</TableHead>
+                      {isAdmin && <TableHead></TableHead>}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {collections.map((collection, index) => (
                       <TableRow key={collection.id}>
-                        <TableCell className="text-center">
+                        <TableCell className="whitespace-nowrap">
                           {(index + 1).toLocaleString("bn-BD")}
                         </TableCell>
-                        <TableCell>{collection.donor_name}</TableCell>
-                        <TableCell className="max-w-[150px] truncate">
+                        <TableCell className="whitespace-nowrap">{collection.donor_name}</TableCell>
+                        <TableCell className="whitespace-nowrap">
                           {collection.address || "-"}
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="whitespace-nowrap">
                           ৳ {Number(collection.amount).toLocaleString("bn-BD")}
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="whitespace-nowrap">
                           {new Date(collection.collection_date).toLocaleDateString(
                             "bn-BD"
                           )}
                         </TableCell>
-                        <TableCell className="max-w-[200px] truncate">
+                        <TableCell>
                           {collection.description || "-"}
                         </TableCell>
                         {isAdmin && (
