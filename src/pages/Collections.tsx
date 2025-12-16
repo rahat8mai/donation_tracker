@@ -134,41 +134,41 @@ const Collections = () => {
               </p>
             ) : (
               <div className="overflow-x-auto">
-                <Table className="w-auto">
+                <Table className="table-auto">
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="whitespace-nowrap px-2">ক্রমিক</TableHead>
-                      <TableHead className="whitespace-nowrap px-2">দাতার নাম</TableHead>
-                      <TableHead className="whitespace-nowrap px-2">ঠিকানা</TableHead>
-                      <TableHead className="whitespace-nowrap px-2">টাকা</TableHead>
-                      <TableHead className="whitespace-nowrap px-2">তারিখ</TableHead>
-                      <TableHead className="whitespace-nowrap px-2">বিবরণ</TableHead>
-                      {isAdmin && <TableHead className="px-2"></TableHead>}
+                      <TableHead className="whitespace-nowrap">ক্রমিক</TableHead>
+                      <TableHead className="whitespace-nowrap">দাতার নাম</TableHead>
+                      <TableHead className="whitespace-nowrap">ঠিকানা</TableHead>
+                      <TableHead className="whitespace-nowrap">টাকা</TableHead>
+                      <TableHead className="whitespace-nowrap">তারিখ</TableHead>
+                      <TableHead className="whitespace-nowrap">বিবরণ</TableHead>
+                      {isAdmin && <TableHead></TableHead>}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {collections.map((collection, index) => (
                       <TableRow key={collection.id}>
-                        <TableCell className="whitespace-nowrap px-2">
+                        <TableCell className="whitespace-nowrap">
                           {(index + 1).toLocaleString("bn-BD")}
                         </TableCell>
-                        <TableCell className="whitespace-nowrap px-2">{collection.donor_name}</TableCell>
-                        <TableCell className="whitespace-nowrap px-2">
+                        <TableCell className="whitespace-nowrap">{collection.donor_name}</TableCell>
+                        <TableCell className="whitespace-nowrap">
                           {collection.address || "-"}
                         </TableCell>
-                        <TableCell className="whitespace-nowrap px-2">
+                        <TableCell className="whitespace-nowrap">
                           ৳ {Number(collection.amount).toLocaleString("bn-BD")}
                         </TableCell>
-                        <TableCell className="whitespace-nowrap px-2">
+                        <TableCell className="whitespace-nowrap">
                           {new Date(collection.collection_date).toLocaleDateString(
                             "bn-BD"
                           )}
                         </TableCell>
-                        <TableCell className="px-2">
+                        <TableCell>
                           {collection.description || "-"}
                         </TableCell>
                         {isAdmin && (
-                          <TableCell className="px-2">
+                          <TableCell>
                             <div className="flex gap-1">
                               <Button
                                 variant="ghost"
