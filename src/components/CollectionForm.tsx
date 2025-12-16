@@ -13,6 +13,7 @@ interface Collection {
   description: string | null;
   collection_date: string;
   address: string | null;
+  reference_name: string | null;
 }
 
 interface CollectionFormProps {
@@ -25,6 +26,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
+  const [referenceName, setReferenceName] = useState("");
   const [collectionDate, setCollectionDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -38,6 +40,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
       setAmount(editData.amount.toString());
       setDescription(editData.description || "");
       setAddress(editData.address || "");
+      setReferenceName(editData.reference_name || "");
       setCollectionDate(editData.collection_date);
     }
   }, [editData]);
@@ -60,6 +63,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
           amount: parseFloat(amount),
           description: description.trim() || null,
           address: address.trim() || null,
+          reference_name: referenceName.trim() || null,
           collection_date: collectionDate,
         })
         .eq("id", editData.id);
@@ -79,6 +83,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
         amount: parseFloat(amount),
         description: description.trim() || null,
         address: address.trim() || null,
+        reference_name: referenceName.trim() || null,
         collection_date: collectionDate,
       });
 
@@ -95,6 +100,7 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
       setAmount("");
       setDescription("");
       setAddress("");
+      setReferenceName("");
       setCollectionDate(new Date().toISOString().split("T")[0]);
     }
 
@@ -135,6 +141,16 @@ const CollectionForm = ({ onSuccess, editData }: CollectionFormProps) => {
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           placeholder="ঠিকানা লিখুন"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="referenceName">রেফারেন্স নাম (ঐচ্ছিক)</Label>
+        <Input
+          id="referenceName"
+          value={referenceName}
+          onChange={(e) => setReferenceName(e.target.value)}
+          placeholder="রেফারেন্স নাম লিখুন"
         />
       </div>
 
