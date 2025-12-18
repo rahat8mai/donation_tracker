@@ -101,15 +101,7 @@ const Collections = () => {
         <AdminLoginDialog />
       </div>
 
-      <div className="mx-auto max-w-4xl">
-        <Link
-          to="/"
-          className="mb-6 inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          হোমে ফিরুন
-        </Link>
-
+      <div className="mx-auto max-w-4xl pb-20">
         <Card className="mb-6">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl">সংগ্রহকৃত টাকার তালিকা</CardTitle>
@@ -246,6 +238,17 @@ const Collections = () => {
           />
         </DialogContent>
       </Dialog>
+
+      {/* Floating Home Button */}
+      <Link to="/">
+        <Button
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 shadow-lg"
+          variant="outline"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          হোমে ফিরে যান
+        </Button>
+      </Link>
     </div>
   );
 };
