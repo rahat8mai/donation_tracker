@@ -103,7 +103,7 @@ const Collections = () => {
         <AdminLoginDialog />
       </div>
 
-      <div className="mx-auto max-w-4xl pb-20">
+      <div className="mx-auto max-w-4xl">
         <Card className="mb-6">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl">সংগ্রহকৃত টাকার তালিকা</CardTitle>
@@ -222,6 +222,16 @@ const Collections = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Home Button - Below Table */}
+        <div className="flex justify-center">
+          <Link to="/">
+            <Button className="shadow-md">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              হোমে ফিরে যান
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Edit Dialog */}
@@ -240,22 +250,6 @@ const Collections = () => {
           />
         </DialogContent>
       </Dialog>
-
-      {/* Floating Home Button */}
-      <Link to="/">
-        <Button
-          className={cn(
-            "fixed bottom-6 left-1/2 -translate-x-1/2 shadow-lg transition-all duration-300",
-            isButtonVisible 
-              ? "translate-y-0 opacity-100" 
-              : "translate-y-16 opacity-0"
-          )}
-          variant="outline"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          হোমে ফিরে যান
-        </Button>
-      </Link>
     </div>
   );
 };
