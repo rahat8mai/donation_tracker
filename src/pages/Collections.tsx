@@ -23,7 +23,8 @@ import AdminLoginDialog from "@/components/AdminLoginDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useAdmin } from "@/contexts/AdminContext";
-
+import { useScrollVisibility } from "@/hooks/use-scroll-visibility";
+import { cn } from "@/lib/utils";
 interface Collection {
   id: string;
   donor_name: string;
@@ -37,6 +38,7 @@ interface Collection {
 
 const Collections = () => {
   const { isAdmin } = useAdmin();
+  const isButtonVisible = useScrollVisibility();
   const [collections, setCollections] = useState<Collection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -242,7 +244,12 @@ const Collections = () => {
       {/* Floating Home Button */}
       <Link to="/">
         <Button
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 shadow-lg"
+          className={cn(
+            "fixed bottom-6 left-1/2 -translate-x-1/2 shadow-lg transition-all duration-300",
+            isButtonVisible 
+              ? "translate-y-0 opacity-100" 
+              : "translate-y-16 opacity-0"
+          )}
           variant="outline"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
