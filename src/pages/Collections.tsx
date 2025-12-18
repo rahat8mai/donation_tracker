@@ -42,15 +42,14 @@ const Collections = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCollection, setEditingCollection] = useState<Collection | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [isScrollable, setIsScrollable] = useState(false);
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   const checkScrollable = () => {
     const container = tableContainerRef.current;
     if (container) {
-      const hasMoreToScroll = container.scrollWidth > container.clientWidth && 
-        container.scrollLeft < container.scrollWidth - container.clientWidth - 5;
-      setCanScrollRight(hasMoreToScroll);
+      const canScroll = container.scrollWidth > container.clientWidth;
+      setIsScrollable(canScroll);
     }
   };
 
@@ -162,10 +161,10 @@ const Collections = () => {
                       <TableRow>
                         <TableHead className="whitespace-nowrap">ক্রমিক</TableHead>
                         <TableHead className="whitespace-nowrap">দাতার নাম</TableHead>
-                        <TableHead className="whitespace-nowrap">ঠিকানা</TableHead>
-                        <TableHead className="whitespace-nowrap">রেফারেন্স নাম</TableHead>
                         <TableHead className="whitespace-nowrap">টাকা</TableHead>
                         <TableHead className="whitespace-nowrap">তারিখ</TableHead>
+                        <TableHead className="whitespace-nowrap">ঠিকানা</TableHead>
+                        <TableHead className="whitespace-nowrap">রেফারেন্স নাম</TableHead>
                         <TableHead className="whitespace-nowrap">বিবরণ</TableHead>
                         {isAdmin && <TableHead></TableHead>}
                       </TableRow>
@@ -178,18 +177,18 @@ const Collections = () => {
                           </TableCell>
                           <TableCell className="whitespace-nowrap">{collection.donor_name}</TableCell>
                           <TableCell className="whitespace-nowrap">
-                            {collection.address || "-"}
-                          </TableCell>
-                          <TableCell className="whitespace-nowrap">
-                            {collection.reference_name || "-"}
-                          </TableCell>
-                          <TableCell className="whitespace-nowrap">
                             ৳ {Number(collection.amount).toLocaleString("bn-BD")}
                           </TableCell>
                           <TableCell className="whitespace-nowrap">
                             {new Date(collection.collection_date).toLocaleDateString(
                               "bn-BD"
                             )}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {collection.address || "-"}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            {collection.reference_name || "-"}
                           </TableCell>
                           <TableCell>
                             {collection.description || "-"}
@@ -219,10 +218,10 @@ const Collections = () => {
                     </TableBody>
                   </Table>
                 </div>
-                {canScrollRight && (
-                  <div className="flex items-center justify-center gap-2 py-2 text-sm text-muted-foreground md:hidden animate-pulse">
-                    <span>আরো দেখতে ডানে স্ক্রল করুন</span>
-                    <ChevronRight className="h-4 w-4" />
+                {isScrollable && (
+                  <div className="flex items-center justify-center gap-2 py-2 text-sm text-muted-foreground md:hidden">
+                    <span className="animate-pulse">আরো দেখতে ডানে স্ক্রল করুন</span>
+                    <ChevronRight className="h-4 w-4 animate-[pulse_1s_ease-in-out_infinite]" />
                   </div>
                 )}
               </>
