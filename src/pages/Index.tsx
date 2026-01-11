@@ -78,12 +78,6 @@ const Index = () => {
           <p className="mt-2 text-lg font-semibold text-primary">01788723577</p>
           <div className="mt-3 flex items-center justify-center gap-4">
             <div className="flex flex-col items-center gap-1">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-pink-500/10">
-                <Smartphone className="h-5 w-5 text-pink-500" />
-              </div>
-              <span className="text-xs text-muted-foreground">বিকাশ</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-500/10">
                 <Smartphone className="h-5 w-5 text-purple-500" />
               </div>
