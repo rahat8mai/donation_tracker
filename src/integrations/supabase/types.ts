@@ -55,6 +55,7 @@ export type Database = {
           description: string | null
           expense_date: string
           id: string
+          pdf_url: string | null
           title: string
         }
         Insert: {
@@ -64,6 +65,7 @@ export type Database = {
           description?: string | null
           expense_date?: string
           id?: string
+          pdf_url?: string | null
           title: string
         }
         Update: {
@@ -73,6 +75,7 @@ export type Database = {
           description?: string | null
           expense_date?: string
           id?: string
+          pdf_url?: string | null
           title?: string
         }
         Relationships: []
