@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { ArrowLeft, Plus, Trash2, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -19,11 +19,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ExpenseForm from "@/components/ExpenseForm";
+import ExpensePdfUpload from "@/components/ExpensePdfUpload";
 import AdminLoginDialog from "@/components/AdminLoginDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useAdmin } from "@/contexts/AdminContext";
-import { useScrollVisibility } from "@/hooks/use-scroll-visibility";
 import { cn } from "@/lib/utils";
 
 interface Expense {
@@ -34,11 +34,11 @@ interface Expense {
   category: string | null;
   expense_date: string;
   created_at: string;
+  pdf_url: string | null;
 }
 
 const Expenses = () => {
   const { isAdmin } = useAdmin();
-  const isButtonVisible = useScrollVisibility();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -79,7 +79,21 @@ const Expenses = () => {
     setIsEditDialogOpen(true);
   };
 
-  const totalAmount = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
+  // Separate PDFs and regular expenses
+  const pdfExpenses = useMemo(
+    () =>
+      expenses
+        .filter((e) => e.pdf_url)
+        .map((e) => ({ name: e.title, url: e.pdf_url!, id: e.id })),
+    [expenses]
+  );
+
+  const regularExpenses = useMemo(
+    () => expenses.filter((e) => !e.pdf_url),
+    [expenses]
+  );
+
+  const totalAmount = regularExpenses.reduce((sum, e) => sum + Number(e.amount), 0);
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
@@ -88,6 +102,17 @@ const Expenses = () => {
       </div>
 
       <div className="mx-auto max-w-4xl">
+        {/* PDF Upload Section - Top */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="text-xl">খরচের বিবরণী</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
+          </CardContent>
+        </Card>
+
+        {/* Expense Table Section - Below */}
         <Card className="mb-6">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl">খরচের তালিকা</CardTitle>
@@ -123,7 +148,7 @@ const Expenses = () => {
 
             {isLoading ? (
               <p className="text-center text-muted-foreground">লোড হচ্ছে...</p>
-            ) : expenses.length === 0 ? (
+            ) : regularExpenses.length === 0 ? (
               <p className="text-center text-muted-foreground">
                 কোনো তথ্য পাওয়া যায়নি
               </p>
@@ -142,7 +167,7 @@ const Expenses = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {expenses.map((expense, index) => (
+                    {regularExpenses.map((expense, index) => (
                       <TableRow key={expense.id}>
                         <TableCell className="text-center">
                           {(index + 1).toLocaleString("bn-BD")}
