@@ -34,7 +34,7 @@ interface Expense {
   category: string | null;
   expense_date: string;
   created_at: string;
-  pdf_url: string | null;
+  pdf_url?: string | null;
 }
 
 const Expenses = () => {
@@ -55,7 +55,7 @@ const Expenses = () => {
       toast.error("তথ্য লোড করতে সমস্যা হয়েছে");
       console.error(error);
     } else {
-      setExpenses(data || []);
+      setExpenses((data as unknown as Expense[]) || []);
     }
     setIsLoading(false);
   };

@@ -54,7 +54,7 @@ const ExpensePdfUpload = ({ pdfs, onUploadSuccess }: ExpensePdfUploadProps) => {
       amount: 0,
       pdf_url: urlData.publicUrl,
       category: "পিডিএফ বিবরণী",
-    });
+    } as any);
 
     setIsUploading(false);
 
