@@ -66,15 +66,12 @@ const Index = () => {
           <CardContent className="p-3 pt-4 text-center sm:pt-6">
             <p className="text-xs text-muted-foreground sm:text-sm">অবশিষ্ট</p>
             <p className={`text-sm font-bold sm:text-2xl ${balance >= 0 ? "text-green-500" : "text-destructive"}`}>
-              {isLoading || balance === 0 ? (
-                <span className="inline-flex gap-1">
-                  <span className={`inline-block h-2 w-2 rounded-full ${balance >= 0 ? "bg-green-500" : "bg-destructive"} animate-bounce [animation-delay:0ms]`} />
-                  <span className={`inline-block h-2 w-2 rounded-full ${balance >= 0 ? "bg-green-500" : "bg-destructive"} animate-bounce [animation-delay:150ms]`} />
-                  <span className={`inline-block h-2 w-2 rounded-full ${balance >= 0 ? "bg-green-500" : "bg-destructive"} animate-bounce [animation-delay:300ms]`} />
-                </span>
-              ) : (
-                `৳ ${balance.toLocaleString("bn-BD")}`
-              )}
+              <span className="inline-flex gap-1">
+                <span className={`inline-block h-2 w-2 rounded-full ${balance >= 0 ? "bg-green-500" : "bg-destructive"} animate-bounce [animation-delay:0ms]`} />
+                <span className={`inline-block h-2 w-2 rounded-full ${balance >= 0 ? "bg-green-500" : "bg-destructive"} animate-bounce [animation-delay:150ms]`} />
+                <span className={`inline-block h-2 w-2 rounded-full ${balance >= 0 ? "bg-green-500" : "bg-destructive"} animate-bounce [animation-delay:300ms]`} />
+              </span>
+            </p>
             </p>
           </CardContent>
         </Card>
