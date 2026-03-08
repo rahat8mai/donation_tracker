@@ -141,22 +141,36 @@ const Expenses = () => {
               <p className="text-2xl font-bold text-destructive">
                 ৳ {totalAmount.toLocaleString("bn-BD")}
               </p>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" size="sm" className="mt-3">
-                    <FileText className="mr-2 h-4 w-4" />
-                    খরচের বিবরণী (PDF)
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="bottom" className="max-h-[80vh] overflow-y-auto">
-                  <SheetHeader>
-                    <SheetTitle>খরচের বিবরণী (PDF)</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-4">
-                    <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
-                  </div>
-                </SheetContent>
-              </Sheet>
+              {pdfExpenses.map((pdf) => (
+                <Button
+                  key={pdf.id}
+                  variant="outline"
+                  size="sm"
+                  className="mt-2"
+                  onClick={() => window.open(pdf.url, "_blank", "noopener,noreferrer")}
+                >
+                  <FileText className="mr-2 h-4 w-4 text-destructive" />
+                  {pdf.name}
+                </Button>
+              ))}
+              {isAdmin && (
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" size="sm" className="mt-2">
+                      <Plus className="mr-2 h-4 w-4" />
+                      পিডিএফ আপলোড / মুছুন
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="bottom" className="max-h-[80vh] overflow-y-auto">
+                    <SheetHeader>
+                      <SheetTitle>খরচের বিবরণী (PDF)</SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-4">
+                      <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              )}
             </div>
 
             {isLoading ? (
