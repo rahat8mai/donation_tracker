@@ -241,14 +241,14 @@ const Expenses = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Floating PDF Button */}
+      {/* Floating PDF Button - Top Right */}
       <Sheet>
         <SheetTrigger asChild>
           <Button
-            className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-lg"
+            className="fixed top-4 left-4 z-50 h-12 w-12 rounded-full shadow-lg"
             size="icon"
           >
-            <FileText className="h-6 w-6" />
+            <FileText className="h-5 w-5" />
           </Button>
         </SheetTrigger>
         <SheetContent side="bottom" className="max-h-[80vh] overflow-y-auto">
