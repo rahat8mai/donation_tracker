@@ -53,7 +53,15 @@ const Index = () => {
           <CardContent className="p-3 pt-4 text-center sm:pt-6">
             <p className="text-xs text-muted-foreground sm:text-sm">মোট খরচ</p>
             <p className="text-sm font-bold text-destructive sm:text-2xl">
-              {isLoading ? "..." : `৳ ${totalExpense.toLocaleString("bn-BD")}`}
+              {isLoading || totalExpense === 0 ? (
+                <span className="inline-flex gap-1">
+                  <span className="inline-block h-2 w-2 rounded-full bg-destructive animate-bounce [animation-delay:0ms]" />
+                  <span className="inline-block h-2 w-2 rounded-full bg-destructive animate-bounce [animation-delay:150ms]" />
+                  <span className="inline-block h-2 w-2 rounded-full bg-destructive animate-bounce [animation-delay:300ms]" />
+                </span>
+              ) : (
+                `৳ ${totalExpense.toLocaleString("bn-BD")}`
+              )}
             </p>
           </CardContent>
         </Card>
