@@ -140,7 +140,11 @@ const Expenses = () => {
               <p className="text-sm text-muted-foreground">মোট খরচ</p>
               <p className="text-2xl font-bold text-destructive">
                 {isLoading || totalAmount === 0 ? (
-                  <Loader2 className="inline h-6 w-6 animate-spin" />
+                  <span className="inline-flex gap-1">
+                    <span className="inline-block h-2 w-2 rounded-full bg-destructive animate-bounce [animation-delay:0ms]" />
+                    <span className="inline-block h-2 w-2 rounded-full bg-destructive animate-bounce [animation-delay:150ms]" />
+                    <span className="inline-block h-2 w-2 rounded-full bg-destructive animate-bounce [animation-delay:300ms]" />
+                  </span>
                 ) : (
                   <>৳ {totalAmount.toLocaleString("bn-BD")}</>
                 )}
