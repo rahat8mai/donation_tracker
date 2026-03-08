@@ -109,17 +109,7 @@ const Expenses = () => {
       </div>
 
       <div className="mx-auto max-w-4xl">
-        {/* PDF Upload Section - Top */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="text-xl">খরচের বিবরণী</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
-          </CardContent>
-        </Card>
-
-        {/* Expense Table Section - Below */}
+        {/* Expense Table Section */}
         <Card className="mb-6">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl">খরচের তালিকা</CardTitle>
