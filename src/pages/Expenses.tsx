@@ -139,7 +139,7 @@ const Expenses = () => {
             <div className="mb-4 rounded-lg bg-destructive/10 p-4 text-center">
               <p className="text-sm text-muted-foreground">মোট খরচ</p>
               <p className="text-2xl font-bold text-destructive">
-                {isLoading ? (
+                {isLoading || totalAmount === 0 ? (
                   <Loader2 className="inline h-6 w-6 animate-spin" />
                 ) : (
                   <>৳ {totalAmount.toLocaleString("bn-BD")}</>
