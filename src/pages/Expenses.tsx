@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { ArrowLeft, Plus, Trash2, Pencil } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Pencil, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +10,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   Table,
   TableBody,
@@ -102,17 +109,7 @@ const Expenses = () => {
       </div>
 
       <div className="mx-auto max-w-4xl">
-        {/* PDF Upload Section - Top */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="text-xl">খরচের বিবরণী</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
-          </CardContent>
-        </Card>
-
-        {/* Expense Table Section - Below */}
+        {/* Expense Table Section */}
         <Card className="mb-6">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl">খরচের তালিকা</CardTitle>
@@ -243,6 +240,26 @@ const Expenses = () => {
           />
         </DialogContent>
       </Dialog>
+
+      {/* Floating PDF Button */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button
+            className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-lg"
+            size="icon"
+          >
+            <FileText className="h-6 w-6" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="bottom" className="max-h-[80vh] overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>খরচের বিবরণী (PDF)</SheetTitle>
+          </SheetHeader>
+          <div className="mt-4">
+            <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

@@ -32,7 +32,8 @@ const ExpensePdfUpload = ({ pdfs, onUploadSuccess }: ExpensePdfUploadProps) => {
 
     setIsUploading(true);
 
-    const fileName = `${Date.now()}_${file.name}`;
+    const fileExt = file.name.split(".").pop() || "pdf";
+    const fileName = `${Date.now()}_${crypto.randomUUID()}.${fileExt}`;
     const { error: uploadError } = await supabase.storage
       .from("expense-pdfs")
       .upload(fileName, file);
