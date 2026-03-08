@@ -59,7 +59,6 @@ const Index = () => {
                 <span className="inline-block h-2 w-2 rounded-full bg-destructive animate-bounce [animation-delay:300ms]" />
               </span>
             </p>
-            </p>
           </CardContent>
         </Card>
         <Card className={`${balance >= 0 ? "border-green-500/20 bg-green-500/5" : "border-destructive/20 bg-destructive/5"}`}>
