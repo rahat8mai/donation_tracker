@@ -93,28 +93,26 @@ const ExpensePdfUpload = ({ pdfs, onUploadSuccess }: ExpensePdfUploadProps) => {
           {pdfs.map((pdf) => (
             <div
               key={pdf.id}
-              className="flex items-center justify-between rounded-lg border p-3"
+              className="flex items-center justify-between rounded-lg border p-3 cursor-pointer transition-colors hover:bg-accent"
+              onClick={() => window.open(pdf.url, "_blank", "noopener,noreferrer")}
             >
-              <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-destructive" />
-                <span className="text-sm truncate max-w-[200px]">{pdf.name}</span>
+              <div className="flex items-center gap-2 min-w-0">
+                <FileText className="h-5 w-5 shrink-0 text-destructive" />
+                <span className="text-sm truncate">{pdf.name}</span>
               </div>
-              <div className="flex gap-1">
-                <a href={pdf.url} target="_blank" rel="noopener noreferrer">
-                  <Button variant="ghost" size="icon">
-                    <ExternalLink className="h-4 w-4 text-primary" />
-                  </Button>
-                </a>
-                {isAdmin && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDelete(pdf)}
-                  >
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
-                )}
-              </div>
+              {isAdmin && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="shrink-0"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(pdf);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              )}
             </div>
           ))}
         </div>
