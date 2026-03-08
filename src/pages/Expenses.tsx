@@ -257,25 +257,6 @@ const Expenses = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Floating PDF Button - Top Right */}
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            className="fixed top-4 left-4 z-50 h-12 w-12 rounded-full shadow-lg"
-            size="icon"
-          >
-            <FileText className="h-5 w-5" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="bottom" className="max-h-[80vh] overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle>খরচের বিবরণী (PDF)</SheetTitle>
-          </SheetHeader>
-          <div className="mt-4">
-            <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
-          </div>
-        </SheetContent>
-      </Sheet>
     </div>
   );
 };
