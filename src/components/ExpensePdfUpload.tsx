@@ -73,7 +73,7 @@ const ExpensePdfUpload = ({ pdfs, onUploadSuccess }: ExpensePdfUploadProps) => {
   const handleDelete = async (pdf: { name: string; url: string; id: string }) => {
     // Extract file name from URL
     const urlParts = pdf.url.split("/");
-    const fileName = urlParts[urlParts.length - 1];
+    const fileName = decodeURIComponent(urlParts[urlParts.length - 1]);
 
     await supabase.storage.from("expense-pdfs").remove([fileName]);
     const { error } = await supabase.from("expenses").delete().eq("id", pdf.id);
