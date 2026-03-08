@@ -175,8 +175,7 @@ const Expenses = () => {
 
             {isLoading ? (
               <p className="text-center text-muted-foreground">লোড হচ্ছে...</p>
-            ) : regularExpenses.length === 0 ? null
-            ) : (
+            ) : regularExpenses.length === 0 ? null : (
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
