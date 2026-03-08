@@ -141,6 +141,22 @@ const Expenses = () => {
               <p className="text-2xl font-bold text-destructive">
                 ৳ {totalAmount.toLocaleString("bn-BD")}
               </p>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="mt-3">
+                    <FileText className="mr-2 h-4 w-4" />
+                    খরচের বিবরণী (PDF)
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="bottom" className="max-h-[80vh] overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>খরচের বিবরণী (PDF)</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-4">
+                    <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
 
             {isLoading ? (
@@ -241,25 +257,6 @@ const Expenses = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Floating PDF Button - Top Right */}
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            className="fixed top-4 left-4 z-50 h-12 w-12 rounded-full shadow-lg"
-            size="icon"
-          >
-            <FileText className="h-5 w-5" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="bottom" className="max-h-[80vh] overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle>খরচের বিবরণী (PDF)</SheetTitle>
-          </SheetHeader>
-          <div className="mt-4">
-            <ExpensePdfUpload pdfs={pdfExpenses} onUploadSuccess={fetchExpenses} />
-          </div>
-        </SheetContent>
-      </Sheet>
     </div>
   );
 };
