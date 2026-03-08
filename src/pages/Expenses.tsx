@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { ArrowLeft, Plus, Trash2, Pencil, FileText } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Pencil, FileText, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -139,7 +139,11 @@ const Expenses = () => {
             <div className="mb-4 rounded-lg bg-destructive/10 p-4 text-center">
               <p className="text-sm text-muted-foreground">মোট খরচ</p>
               <p className="text-2xl font-bold text-destructive">
-                ৳ {totalAmount.toLocaleString("bn-BD")}
+                {isLoading ? (
+                  <Loader2 className="inline h-6 w-6 animate-spin" />
+                ) : (
+                  <>৳ {totalAmount.toLocaleString("bn-BD")}</>
+                )}
               </p>
               {pdfExpenses.map((pdf) => (
                 <Button
