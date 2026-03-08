@@ -71,7 +71,6 @@ const Index = () => {
                 <span className={`inline-block h-2 w-2 rounded-full ${balance >= 0 ? "bg-green-500" : "bg-destructive"} animate-bounce [animation-delay:300ms]`} />
               </span>
             </p>
-            </p>
           </CardContent>
         </Card>
       </div>
