@@ -125,12 +125,14 @@ const Expenses = () => {
                   <DialogHeader>
                     <DialogTitle>নতুন খরচ যোগ করুন</DialogTitle>
                   </DialogHeader>
-                  <ExpenseForm
-                    onSuccess={() => {
-                      setIsDialogOpen(false);
-                      fetchExpenses();
-                    }}
-                  />
+                  {isDialogOpen && (
+                    <ExpenseForm
+                      onSuccess={() => {
+                        setIsDialogOpen(false);
+                        fetchExpenses();
+                      }}
+                    />
+                  )}
                 </DialogContent>
               </Dialog>
             )}
