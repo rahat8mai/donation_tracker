@@ -1,14 +1,16 @@
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface ActionCardProps {
-  icon: LucideIcon;
+  icon?: LucideIcon;
+  customIcon?: ReactNode;
   title: string;
   onClick?: () => void;
   className?: string;
 }
 
-const ActionCard = ({ icon: Icon, title, onClick, className }: ActionCardProps) => {
+const ActionCard = ({ icon: Icon, customIcon, title, onClick, className }: ActionCardProps) => {
   return (
     <button
       onClick={onClick}
@@ -21,7 +23,7 @@ const ActionCard = ({ icon: Icon, title, onClick, className }: ActionCardProps) 
     >
       <div className="flex flex-col items-center gap-4 text-center">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
-          <Icon className="h-7 w-7" />
+          {customIcon ? customIcon : Icon ? <Icon className="h-7 w-7" /> : null}
         </div>
         <p className="text-base font-medium leading-relaxed text-foreground sm:text-lg">
           {title}
