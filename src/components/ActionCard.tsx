@@ -23,7 +23,7 @@ const ActionCard = ({ icon: Icon, customIcon, title, onClick, className }: Actio
     >
       <div className="flex flex-col items-center gap-4 text-center">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
-          <Icon className="h-7 w-7" />
+          {customIcon ? customIcon : Icon ? <Icon className="h-7 w-7" /> : null}
         </div>
         <p className="text-base font-medium leading-relaxed text-foreground sm:text-lg">
           {title}
