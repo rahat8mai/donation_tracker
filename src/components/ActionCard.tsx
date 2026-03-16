@@ -1,14 +1,16 @@
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface ActionCardProps {
-  icon: LucideIcon;
+  icon?: LucideIcon;
+  customIcon?: ReactNode;
   title: string;
   onClick?: () => void;
   className?: string;
 }
 
-const ActionCard = ({ icon: Icon, title, onClick, className }: ActionCardProps) => {
+const ActionCard = ({ icon: Icon, customIcon, title, onClick, className }: ActionCardProps) => {
   return (
     <button
       onClick={onClick}
