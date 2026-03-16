@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 export const useScrollVisibility = (hideDelay: number = 150) => {
   const [isVisible, setIsVisible] = useState(true);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
