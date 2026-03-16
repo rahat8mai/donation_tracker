@@ -52,53 +52,56 @@ const ExpenseForm = ({ onSuccess, editData }: ExpenseFormProps) => {
 
     setIsLoading(true);
 
-    if (isEditMode && editData) {
-      const { error } = await supabase
-        .from("expenses")
-        .update({
+    try {
+      if (isEditMode && editData) {
+        const { error } = await supabase
+          .from("expenses")
+          .update({
+            title: title.trim(),
+            amount: parseFloat(amount),
+            description: description.trim() || null,
+            category: category.trim() || null,
+            expense_date: expenseDate,
+          })
+          .eq("id", editData.id);
+
+        if (error) {
+          toast.error("আপডেটে সমস্যা হয়েছে");
+          console.error("Update error:", error);
+          return;
+        }
+
+        toast.success("তথ্য আপডেট হয়েছে");
+      } else {
+        const { error } = await supabase.from("expenses").insert({
           title: title.trim(),
           amount: parseFloat(amount),
           description: description.trim() || null,
           category: category.trim() || null,
           expense_date: expenseDate,
-        })
-        .eq("id", editData.id);
+        });
 
-      setIsLoading(false);
+        if (error) {
+          toast.error("সংরক্ষণে সমস্যা হয়েছে: " + error.message);
+          console.error("Insert error:", error);
+          return;
+        }
 
-      if (error) {
-        toast.error("আপডেটে সমস্যা হয়েছে");
-        console.error(error);
-        return;
+        toast.success("খরচের তথ্য সংরক্ষিত হয়েছে");
+        setTitle("");
+        setAmount("");
+        setDescription("");
+        setCategory("");
+        setExpenseDate(new Date().toISOString().split("T")[0]);
       }
 
-      toast.success("তথ্য আপডেট হয়েছে");
-    } else {
-      const { error } = await supabase.from("expenses").insert({
-        title: title.trim(),
-        amount: parseFloat(amount),
-        description: description.trim() || null,
-        category: category.trim() || null,
-        expense_date: expenseDate,
-      });
-
+      onSuccess();
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast.error("অপ্রত্যাশিত সমস্যা হয়েছে");
+    } finally {
       setIsLoading(false);
-
-      if (error) {
-        toast.error("সংরক্ষণে সমস্যা হয়েছে");
-        console.error(error);
-        return;
-      }
-
-      toast.success("খরচের তথ্য সংরক্ষিত হয়েছে");
-      setTitle("");
-      setAmount("");
-      setDescription("");
-      setCategory("");
-      setExpenseDate(new Date().toISOString().split("T")[0]);
     }
-
-    onSuccess();
   };
 
   return (
