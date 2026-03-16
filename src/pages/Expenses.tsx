@@ -261,19 +261,24 @@ const Expenses = () => {
       </div>
 
       {/* Edit Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+      <Dialog open={isEditDialogOpen} onOpenChange={(open) => {
+        setIsEditDialogOpen(open);
+        if (!open) setEditingExpense(null);
+      }}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>তথ্য সম্পাদনা করুন</DialogTitle>
           </DialogHeader>
-          <ExpenseForm
-            editData={editingExpense}
-            onSuccess={() => {
-              setIsEditDialogOpen(false);
-              setEditingExpense(null);
-              fetchExpenses();
-            }}
-          />
+          {isEditDialogOpen && editingExpense && (
+            <ExpenseForm
+              editData={editingExpense}
+              onSuccess={() => {
+                setIsEditDialogOpen(false);
+                setEditingExpense(null);
+                fetchExpenses();
+              }}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
